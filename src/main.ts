@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
-import fs from 'fs';
+import * as fs from 'fs';
 
 async function bootstrap() {
   
