@@ -1,12 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
+import fs from 'fs';
 
 async function bootstrap() {
+  
+  const keyFile  = fs.readFileSync(process.env.LETSENCRYPT_PRIVATE_KEY);
+  const certFile = fs.readFileSync(process.env.LETSENCRYPT_CERT);
   const app = await NestFactory.create(AppModule, {
     httpsOptions: {
-      key: process.env.LETSENCRYPT_PRIVATE_KEY,
-      cert: process.env.LETSENCRYPT_CERT,
+      key: keyFile,
+      cert: certFile,
     },
   });
   app.use(cookieParser());
