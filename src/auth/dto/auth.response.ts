@@ -1,3 +1,3 @@
 export default class AuthResponse {
-    email: string;
+    username: string;
 }

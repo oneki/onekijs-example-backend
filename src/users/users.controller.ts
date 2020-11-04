@@ -1,6 +1,5 @@
-import { Controller, Get, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, UnauthorizedException } from '@nestjs/common';
 import { Cookies } from '@nestjsplus/cookies';
-import { IdpProvider } from '../app.config';
 import { UsersService } from './users.service';
 
 @Controller()
@@ -9,16 +8,13 @@ export class UsersController {
 
   @Get('userinfo')
   async userInfo(
-    @Cookies('access_token') accessToken?: string,
-    @Cookies('idp') idp?: IdpProvider,
+    @Cookies('username') username?: string
   ): Promise<any> {
-    if (!accessToken) {
+    if (!username) {
       throw new UnauthorizedException();
     } else {
-      try {
-        return this.usersService.userInfo(accessToken, idp)
-      } catch (error) {
-        throw new InternalServerErrorException(error.message);
+      return {
+        username
       }
     }
   }

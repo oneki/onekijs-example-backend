@@ -46,7 +46,7 @@ export class AuthController {
     try {
       req._cookies = [
         {
-          name: 'email',
+          name: 'username',
           value: authRequest.username,
           options: {
             sameSite: true,
@@ -55,7 +55,7 @@ export class AuthController {
         },        
       ];
       return {
-        email: authRequest.username
+        username: authRequest.username
       };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
