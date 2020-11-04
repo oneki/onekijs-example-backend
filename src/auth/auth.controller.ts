@@ -40,7 +40,7 @@ export class AuthController {
     }
   }
 
-  @Post('auth')
+  @Post('auth/login')
   @SetCookies({ httpOnly: true })
   async auth(@Request() req, @Body() authRequest: AuthRequest): Promise<AuthResponse> {
     try {

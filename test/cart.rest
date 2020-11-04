@@ -12,3 +12,9 @@ Cookie: username=john.doe@gmail.com
 
 GET https://localhost:4000/cart
 Cookie: username=john.doe@gmail.com
+
+
+###
+
+DELETE https://localhost:4000/cart
+Cookie: username=john.doe@gmail.com 
