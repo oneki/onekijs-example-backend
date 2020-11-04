@@ -1,0 +1,14 @@
+POST https://localhost:4000/cart
+Content-Type: application/json
+Cookie: username=john.doe@gmail.com
+
+{
+	"name": "iPhone XL",
+    "price": 990,
+    "description": "this is the description"
+}
+
+###
+
+GET https://localhost:4000/cart
+Cookie: username=john.doe@gmail.com

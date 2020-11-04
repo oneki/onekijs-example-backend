@@ -2,6 +2,8 @@ import { Body, Controller, InternalServerErrorException, Post, Query, Request } 
 import { SetCookies } from '@nestjsplus/cookies';
 import { IdpProvider } from '../app.config';
 import { AuthService } from './auth.service';
+import AuthRequest from './dto/auth.request';
+import AuthResponse from './dto/auth.response';
 import TokenRequest from './dto/token.request';
 import TokenResponse from './dto/token.response';
 
@@ -37,4 +39,26 @@ export class AuthController {
       throw new InternalServerErrorException(error.message);
     }
   }
+
+  @Post('auth')
+  @SetCookies({ httpOnly: true })
+  async auth(@Request() req, @Body() authRequest: AuthRequest): Promise<AuthResponse> {
+    try {
+      req._cookies = [
+        {
+          name: 'email',
+          value: authRequest.username,
+          options: {
+            sameSite: true,
+            path: '/'
+          },
+        },        
+      ];
+      return {
+        email: authRequest.username
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }  
 }
