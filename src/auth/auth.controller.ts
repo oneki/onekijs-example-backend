@@ -1,4 +1,12 @@
-import { Body, Controller, Get, InternalServerErrorException, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  InternalServerErrorException,
+  Post,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { Cookies, SetCookies } from '@nestjsplus/cookies';
 import { IdpProvider } from '../app.config';
 import { AuthService } from './auth.service';
@@ -13,7 +21,11 @@ export class AuthController {
 
   @Post('oauth2/token')
   @SetCookies({ httpOnly: true })
-  async token(@Request() req, @Body() tokenRequest: TokenRequest, @Query('idp') idp: IdpProvider): Promise<TokenResponse> {
+  async token(
+    @Request() req,
+    @Body() tokenRequest: TokenRequest,
+    @Query('idp') idp: IdpProvider,
+  ): Promise<TokenResponse> {
     try {
       const tokens = await this.authService.token(idp, tokenRequest);
       req._cookies = [
@@ -21,18 +33,16 @@ export class AuthController {
           name: 'access_token',
           value: tokens.access_token,
           options: {
-            sameSite: true,
-            path: '/'
+            path: '/',
           },
         },
         {
           name: 'idp',
           value: 'google',
           options: {
-            sameSite: true,
-            path: '/'
+            path: '/',
           },
-        },        
+        },
       ];
       return tokens;
     } catch (error) {
@@ -42,26 +52,28 @@ export class AuthController {
 
   @Post('auth/login')
   @SetCookies({ httpOnly: true })
-  async auth(@Request() req, @Body() authRequest: AuthRequest): Promise<AuthResponse> {
+  async auth(
+    @Request() req,
+    @Body() authRequest: AuthRequest,
+  ): Promise<AuthResponse> {
     try {
       req._cookies = [
         {
           name: 'username',
           value: authRequest.username,
           options: {
-            sameSite: true,
-            path: '/'
+            path: '/',
           },
-        },        
+        },
       ];
       return {
-        username: authRequest.username
+        username: authRequest.username,
       };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
   }
-  
+
   @Get('auth/logout')
   async logout(@Request() req): Promise<void> {
     req._cookies = [
@@ -70,10 +82,9 @@ export class AuthController {
         value: 'deleted',
         options: {
           expires: new Date(0),
-          sameSite: true,
-          path: '/'
+          path: '/',
         },
-      },        
+      },
     ];
   }
 }
