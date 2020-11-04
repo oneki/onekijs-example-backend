@@ -1,5 +1,5 @@
-import { Body, Controller, InternalServerErrorException, Post, Query, Request } from '@nestjs/common';
-import { SetCookies } from '@nestjsplus/cookies';
+import { Body, Controller, Get, InternalServerErrorException, Post, Query, Request } from '@nestjs/common';
+import { Cookies, SetCookies } from '@nestjsplus/cookies';
 import { IdpProvider } from '../app.config';
 import { AuthService } from './auth.service';
 import AuthRequest from './dto/auth.request';
@@ -60,5 +60,20 @@ export class AuthController {
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
-  }  
+  }
+  
+  @Get()
+  async logout(@Request() req): Promise<void> {
+    req._cookies = [
+      {
+        name: 'username',
+        value: 'deleted',
+        options: {
+          expires: new Date(0),
+          sameSite: true,
+          path: '/'
+        },
+      },        
+    ];
+  }
 }
