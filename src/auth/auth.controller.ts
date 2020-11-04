@@ -62,7 +62,7 @@ export class AuthController {
     }
   }
   
-  @Get()
+  @Get('auth/logout')
   async logout(@Request() req): Promise<void> {
     req._cookies = [
       {
