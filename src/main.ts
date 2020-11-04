@@ -7,12 +7,13 @@ async function bootstrap() {
   
   const keyFile  = fs.readFileSync(process.env.LETSENCRYPT_PRIVATE_KEY);
   const certFile = fs.readFileSync(process.env.LETSENCRYPT_CERT);
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create(AppModule/*, {
     httpsOptions: {
       key: keyFile,
       cert: certFile,
     },
-  });
+  }*/);
+  app.enableCors();
   app.use(cookieParser());
   await app.listen(4000);
 }
