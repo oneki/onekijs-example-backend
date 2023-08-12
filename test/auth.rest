@@ -5,3 +5,13 @@ Content-Type: application/json
 	"username": "test",
     "password": "test"
 }
+
+###
+
+POST https://qz53v.csb.app//auth/login
+Content-Type: application/json
+
+{
+	"username": "test",
+    "password": "test"
+}
